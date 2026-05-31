@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Inspectly",
+  "version": "2.0.0",
+  "description": "Professional network monitoring, request interception, replay, and storage inspection for developers.",
+  "permissions": [
+    "debugger",
+    "storage",
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Inspectly — Developer Inspector",
+    "default_icon": {
+      "16":  "icons/logo-ex.png",
+      "48":  "icons/logo-ex.png",
+      "128": "icons/logo-ex.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "16":  "icons/logo-ex.png",
+    "48":  "icons/logo-ex.png",
+    "128": "icons/logo-ex.png"
+  }
+}
