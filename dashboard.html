@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" id="dashHtml">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Inspectly — Professional Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css"/>
+</head>
+<body>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <img src="icons/icon48.png" class="sb-logo" alt=""/>
+    <div class="sb-title-wrap">
+      <span class="sb-title">Inspectly</span>
+      <span class="sb-ver">v3.0 Pro</span>
+    </div>
+    <button class="sb-collapse-btn" id="sidebarToggle" title="Collapse sidebar">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M13 5L8 10l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <nav class="sb-nav">
+    <button class="sb-item active" data-view="overview">
+      <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span>Overview</span>
+    </button>
+    <button class="sb-item" data-view="requests">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M10 2L2 6l8 4 8-4-8-4zM2 14l8 4 8-4M2 10l8 4 8-4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span>Requests</span>
+    </button>
+    <button class="sb-item" data-view="waterfall">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 9h10M3 13h12M3 17h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>Waterfall</span>
+    </button>
+    <button class="sb-item" data-view="analytics">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M3 16l4-6 4 3 4-8 3 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Analytics</span>
+    </button>
+    <button class="sb-item" data-view="intercept">
+      <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 7v4M10 14h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span>Intercept</span>
+    </button>
+    <div class="sb-divider"></div>
+    <button class="sb-item" data-view="storage">
+      <svg viewBox="0 0 20 20" fill="none"><ellipse cx="10" cy="6" rx="7" ry="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 6v8c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5V6" stroke="currentColor" stroke-width="1.5"/><path d="M3 10c0 1.38 3.13 2.5 7 2.5s7-1.12 7-2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span>Storage</span>
+    </button>
+  </nav>
+
+  <div class="sb-footer">
+    <button class="sb-item sb-settings" id="themeToggleBtn">
+      <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>Toggle Theme</span>
+    </button>
+    <div class="sb-credit">
+      Developed By <a href="https://muhammad-rehman-tahir.vercel.app/" target="_blank">Muhammad Rehman</a> Tahir
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<div class="dash-main">
+
+  <!-- Top Bar -->
+  <div class="dash-topbar">
+    <div class="topbar-left">
+      <div class="recording-controls">
+        <button class="tb-btn tb-record" id="dbBtnRecord">
+          <span class="rec-dot"></span> Record
+        </button>
+        <button class="tb-btn tb-stop hidden" id="dbBtnStop">
+          <svg viewBox="0 0 14 14" fill="currentColor"><rect x="2" y="2" width="10" height="10" rx="1"/></svg> Stop
+        </button>
+        <div class="session-timer" id="dbTimer">
+          <span class="timer-blink">●</span>
+          <span id="dbTimerVal">00:00:00</span>
+        </div>
+      </div>
+      <div class="topbar-live-badge" id="dbLiveBadge">
+        <span class="live-pulse"></span> LIVE
+      </div>
+    </div>
+    <div class="topbar-center">
+      <div class="view-title" id="viewTitle">Overview</div>
+    </div>
+    <div class="topbar-right">
+      <button class="tb-btn tb-clear" id="dbBtnClear" title="Clear all requests">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Clear
+      </button>
+      <button class="tb-btn tb-export" id="dbBtnExport" title="Export JSON">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12v1.5A.5.5 0 0 0 2.5 14h11a.5.5 0 0 0 .5-.5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Export
+      </button>
+      <div class="int-status-pill hidden" id="dbIntPill">
+        <span class="rec-dot"></span> Intercepting
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ VIEW: OVERVIEW ══════════ -->
+  <div class="dash-view active" id="view-overview">
+    <!-- Metric Cards Row -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="mc-icon mc-blue"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2L2 6l8 4 8-4-8-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 14l8 4 8-4M2 10l8 4 8-4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+        <div class="mc-body"><div class="mc-val" id="mTotal">0</div><div class="mc-label">Total Requests</div></div>
+        <div class="mc-trend" id="mTotalTrend"></div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon mc-red"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 7v4M10 14h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="mc-body"><div class="mc-val mc-red-val" id="mErrors">0</div><div class="mc-label">Errors (4xx/5xx)</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon mc-orange"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="mc-body"><div class="mc-val mc-orange-val" id="mAvg">—</div><div class="mc-label">Avg Response Time</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon mc-yellow"><svg viewBox="0 0 20 20" fill="none"><path d="M10 3l1.8 5.5H17l-4.2 3 1.6 5.5L10 13.6 5.6 17l1.6-5.5L3 8.5h5.2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+        <div class="mc-body"><div class="mc-val mc-yellow-val" id="mSlow">0</div><div class="mc-label">Slow Requests (>2s)</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon mc-green"><svg viewBox="0 0 20 20" fill="none"><path d="M5 10l4 4 6-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="mc-body"><div class="mc-val mc-green-val" id="mActive">0</div><div class="mc-label">Active Requests</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon mc-red"><svg viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="mc-body"><div class="mc-val mc-red-val" id="mFailed">0</div><div class="mc-label">Failed Requests</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon mc-purple"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4M10 14h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div class="mc-body"><div class="mc-val mc-purple-val" id="mDomains">0</div><div class="mc-label">Domains</div></div>
+      </div>
+      <div class="metric-card">
+        <div class="mc-icon mc-cyan"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="mc-body"><div class="mc-val" id="mDuration">00:00</div><div class="mc-label">Session Duration</div></div>
+      </div>
+    </div>
+
+    <!-- Live Timeline + Status Breakdown -->
+    <div class="overview-charts">
+      <div class="chart-card chart-timeline">
+        <div class="cc-header">
+          <span class="cc-title">Live Request Timeline</span>
+          <span class="cc-sub">Requests per 10s (last 2 min)</span>
+        </div>
+        <div class="timeline-chart" id="timelineChart">
+          <div class="tl-bars" id="tlBars"></div>
+          <div class="tl-labels" id="tlLabels"></div>
+        </div>
+      </div>
+
+      <div class="chart-card chart-status">
+        <div class="cc-header"><span class="cc-title">Status Breakdown</span></div>
+        <div class="status-breakdown" id="statusBreakdown"></div>
+      </div>
+    </div>
+
+    <!-- Domain & Method breakdown -->
+    <div class="overview-bottom">
+      <div class="chart-card">
+        <div class="cc-header"><span class="cc-title">Top Domains</span></div>
+        <div class="domain-list" id="domainList"></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-header"><span class="cc-title">Methods</span></div>
+        <div class="method-breakdown" id="methodBreakdown"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ VIEW: REQUESTS ══════════ -->
+  <div class="dash-view" id="view-requests">
+    <div class="req-toolbar">
+      <div class="search-wrap">
+        <svg class="si" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M13.5 13.5L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" id="dbReqSearch" class="search-input" placeholder="Filter by URL, method, status, domain…"/>
+      </div>
+      <div class="pills">
+        <button class="pill active" data-filter="all">All</button>
+        <button class="pill" data-filter="xhr">XHR</button>
+        <button class="pill" data-filter="fetch">Fetch</button>
+        <button class="pill" data-filter="error">Errors</button>
+        <button class="pill" data-filter="slow">Slow</button>
+      </div>
+    </div>
+    <div class="req-table-wrap">
+      <table class="req-table" id="dbReqTable">
+        <thead>
+          <tr>
+            <th style="width:72px">Method</th>
+            <th>URL</th>
+            <th style="width:120px">Domain</th>
+            <th style="width:68px">Status</th>
+            <th style="width:64px">Type</th>
+            <th style="width:72px">Time</th>
+            <th style="width:80px">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="dbReqBody"></tbody>
+      </table>
+      <div class="empty-state" id="dbReqEmpty">
+        <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="14" width="48" height="38" rx="4" stroke="currentColor" stroke-width="1.5"/><path d="M8 24h48M20 32h24M20 38h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <p class="es-title">No requests yet</p>
+        <p class="es-sub">Click <strong>Record</strong> and browse to capture traffic.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ VIEW: WATERFALL ══════════ -->
+  <div class="dash-view" id="view-waterfall">
+    <div class="wf-toolbar">
+      <input type="text" id="wfSearch" class="search-input" placeholder="Filter waterfall…" style="max-width:280px"/>
+      <div class="wf-legend">
+        <span class="wf-leg-item"><span class="wf-swatch wf-waiting"></span>Waiting</span>
+        <span class="wf-leg-item"><span class="wf-swatch wf-receiving"></span>Receiving</span>
+        <span class="wf-leg-item"><span class="wf-swatch wf-err"></span>Error</span>
+      </div>
+    </div>
+    <div class="wf-container">
+      <div class="wf-header-row">
+        <div class="wf-name-col">Request</div>
+        <div class="wf-timeline-col" id="wfTimeline">
+          <div class="wf-ruler" id="wfRuler"></div>
+        </div>
+      </div>
+      <div class="wf-body" id="wfBody"></div>
+      <div class="empty-state" id="wfEmpty">
+        <svg viewBox="0 0 64 64" fill="none"><path d="M8 16h12M8 24h28M8 32h20M8 40h24M8 48h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <p class="es-title">No waterfall data</p>
+        <p class="es-sub">Start recording to see request timing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ VIEW: ANALYTICS ══════════ -->
+  <div class="dash-view" id="view-analytics">
+    <div class="analytics-grid">
+
+      <div class="an-card an-bar-chart">
+        <div class="cc-header"><span class="cc-title">Response Time Distribution</span></div>
+        <canvas id="rtDistChart" width="400" height="180"></canvas>
+      </div>
+
+      <div class="an-card an-pie-chart">
+        <div class="cc-header"><span class="cc-title">Status Code Distribution</span></div>
+        <canvas id="statusPieChart" width="260" height="180"></canvas>
+        <div class="pie-legend" id="pieLegend"></div>
+      </div>
+
+      <div class="an-card an-domain-chart">
+        <div class="cc-header"><span class="cc-title">Requests per Domain</span></div>
+        <div class="an-domain-bars" id="anDomainBars"></div>
+      </div>
+
+      <div class="an-card an-method-chart">
+        <div class="cc-header"><span class="cc-title">HTTP Methods</span></div>
+        <div class="an-method-bars" id="anMethodBars"></div>
+      </div>
+
+      <div class="an-card an-perf-table">
+        <div class="cc-header"><span class="cc-title">Slowest Requests</span></div>
+        <table class="perf-table" id="slowTable">
+          <thead><tr><th>URL</th><th>Method</th><th>Status</th><th>Time</th></tr></thead>
+          <tbody id="slowBody"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════ VIEW: INTERCEPT ══════════ -->
+  <div class="dash-view" id="view-intercept">
+    <div class="intercept-top-bar">
+      <div class="intercept-controls-row">
+        <button class="tb-btn tb-int-enable" id="dbBtnIntEnable">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 8.5l2 2 3-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Enable Interception
+        </button>
+        <button class="tb-btn tb-int-disable hidden" id="dbBtnIntDisable">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 5l6 6M11 5L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Stop Interception
+        </button>
+        <input id="dbIntPattern" type="text" class="search-input" style="max-width:320px" placeholder="URL pattern (e.g. *api* — blank = all)"/>
+        <div class="int-live-badge hidden" id="dbIntLive">
+          <span class="rec-dot"></span> Intercepting
+        </div>
+      </div>
+      <div class="int-tab-bar">
+        <button class="int-tab active" data-itab="queue">Live Queue <span class="tab-badge" id="dbQueueBadge">0</span></button>
+        <button class="int-tab" data-itab="history">History <span class="tab-badge" id="dbHistBadge">0</span></button>
+        <button class="tb-btn tb-clear" id="dbBtnIntClear" style="margin-left:auto">Clear History</button>
+      </div>
+    </div>
+    <div class="int-panels-wrap">
+      <div class="int-panel active" id="dbPanelQueue">
+        <div class="empty-state" id="dbQueueEmpty">
+          <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="24" stroke="currentColor" stroke-width="1.5"/><path d="M32 20v12M32 40h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <p class="es-title">Queue empty</p><p class="es-sub">Enable interception then browse.</p>
+        </div>
+        <div id="dbQueueList" class="queue-list"></div>
+      </div>
+      <div class="int-panel" id="dbPanelHistory">
+        <div class="empty-state" id="dbHistEmpty">
+          <p class="es-title">No history</p><p class="es-sub">Intercepted requests appear here.</p>
+        </div>
+        <div id="dbHistList" class="queue-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ VIEW: STORAGE ══════════ -->
+  <div class="dash-view" id="view-storage">
+    <div class="storage-tabs">
+      <button class="st-tab active" data-stab="ls">Local Storage</button>
+      <button class="st-tab" data-stab="ss">Session Storage</button>
+      <button class="st-tab" data-stab="cache">Cache Storage</button>
+      <button class="st-tab" data-stab="idb">IndexedDB</button>
+      <button class="tb-btn tb-clear" id="dbStorRefresh" style="margin-left:auto">↻ Refresh</button>
+    </div>
+    <div class="storage-content" id="dbStorageContent">
+      <div class="loading-state"><div class="spinner"></div><span>Loading storage…</span></div>
+    </div>
+  </div>
+
+</div><!-- /.dash-main -->
+
+<!-- ═══════════ REQUEST DETAIL SIDE PANEL ═══════════ -->
+<div class="side-panel" id="sidePanel">
+  <div class="sp-header">
+    <div class="sp-title-row">
+      <span class="method-badge" id="spMethod">GET</span>
+      <span class="status-badge" id="spStatus"></span>
+      <span class="sp-url" id="spUrl"></span>
+    </div>
+    <button class="icon-btn" id="spClose">
+      <svg viewBox="0 0 18 18" fill="none"><path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="sp-tabs">
+    <button class="sptab active" data-sptab="overview">Overview</button>
+    <button class="sptab" data-sptab="request">Request</button>
+    <button class="sptab" data-sptab="response">Response</button>
+    <button class="sptab" data-sptab="replay">Replay</button>
+  </div>
+  <div class="sp-body">
+    <div class="sp-panel active" id="spp-overview">
+      <div class="kv-grid" id="spOverviewGrid"></div>
+    </div>
+    <div class="sp-panel" id="spp-request">
+      <div class="slbl">Request Headers</div><pre class="cpre" id="spReqH"></pre>
+      <div class="slbl">Request Payload</div><pre class="cpre" id="spReqB"></pre>
+    </div>
+    <div class="sp-panel" id="spp-response">
+      <div class="slbl">Response Headers</div><pre class="cpre" id="spResH"></pre>
+      <div class="slbl">Response Body</div><pre class="cpre" id="spResB"></pre>
+    </div>
+    <div class="sp-panel" id="spp-replay">
+      <div class="form-group"><label>URL</label><input id="sp-rp-url" type="text" class="form-input"/></div>
+      <div class="form-group"><label>Method</label>
+        <select id="sp-rp-method" class="form-select">
+          <option>GET</option><option>POST</option><option>PUT</option>
+          <option>PATCH</option><option>DELETE</option><option>HEAD</option><option>OPTIONS</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Headers <span class="fhint">(JSON)</span></label><textarea id="sp-rp-headers" class="form-textarea" rows="5"></textarea></div>
+      <div class="form-group"><label>Body</label><textarea id="sp-rp-body" class="form-textarea" rows="4"></textarea></div>
+      <button class="tb-btn tb-record" id="spBtnReplay" style="gap:6px">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Send Replay
+      </button>
+      <div class="replay-loading hidden" id="spRpLoading"><div class="spinner"></div><span>Sending…</span></div>
+      <div class="replay-result hidden" id="spRpResult">
+        <div class="slbl">Response</div>
+        <div class="replay-meta" id="spRpMeta"></div>
+        <pre class="cpre" id="spRpBody"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Intercept edit modal (reused from popup) -->
+<div class="modal-overlay" id="dbInterceptOverlay">
+  <div class="modal modal-wide" id="dbInterceptModal">
+    <div class="modal-hdr">
+      <div class="modal-title-row">
+        <span class="method-badge" id="dbImMethod">GET</span>
+        <span class="int-paused-badge">PAUSED</span>
+        <span class="modal-url" id="dbImUrl"></span>
+      </div>
+      <button class="icon-btn" id="dbInterceptClose">
+        <svg viewBox="0 0 18 18" fill="none"><path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="intercept-action-bar">
+      <button class="ia-btn ia-forward" id="dbIaForward">▶ Forward</button>
+      <button class="ia-btn ia-modify"  id="dbIaModify">✎ Modify &amp; Send</button>
+      <button class="ia-btn ia-block"   id="dbIaBlock">⊘ Block</button>
+      <button class="ia-btn ia-dup"     id="dbIaDuplicate">⧉ Duplicate</button>
+    </div>
+    <div class="modal-tabs">
+      <button class="mtab active" data-ditab="overview">Overview</button>
+      <button class="mtab" data-ditab="params">URL &amp; Params</button>
+      <button class="mtab" data-ditab="headers">Headers</button>
+      <button class="mtab" data-ditab="body">Body</button>
+    </div>
+    <div class="modal-body">
+      <div class="tab-panel active" id="ditp-overview">
+        <div class="kv-grid" id="dbImOverview"></div>
+        <div class="slbl" style="margin-top:10px">Original Headers</div>
+        <pre class="cpre" id="dbImOrigH"></pre>
+        <div class="slbl">Original Payload</div>
+        <pre class="cpre" id="dbImOrigB"></pre>
+      </div>
+      <div class="tab-panel" id="ditp-params">
+        <div class="form-group"><label>URL</label><input id="db-edit-url" type="text" class="form-input"/></div>
+        <div class="form-group"><label>Method</label>
+          <select id="db-edit-method" class="form-select">
+            <option>GET</option><option>POST</option><option>PUT</option>
+            <option>PATCH</option><option>DELETE</option><option>HEAD</option><option>OPTIONS</option>
+          </select>
+        </div>
+        <div class="slbl">Query Params</div>
+        <div id="dbParamEditor" class="param-editor"></div>
+        <button class="tb-btn" id="dbAddParam" style="margin-top:6px;font-size:11px;padding:3px 10px">+ Add Param</button>
+      </div>
+      <div class="tab-panel" id="ditp-headers">
+        <div class="form-group"><label>Headers (JSON)</label>
+          <textarea id="db-edit-headers" class="form-textarea" rows="12" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="tab-panel" id="ditp-body">
+        <div class="form-group"><label>Content-Type</label>
+          <select id="db-edit-ct" class="form-select">
+            <option value="">— None —</option>
+            <option value="application/json">application/json</option>
+            <option value="application/x-www-form-urlencoded">application/x-www-form-urlencoded</option>
+            <option value="text/plain">text/plain</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Body</label>
+          <textarea id="db-edit-body" class="form-textarea" rows="14" spellcheck="false"></textarea>
+        </div>
+        <button class="tb-btn" id="dbPrettyBody" style="font-size:11px;padding:3px 10px">✦ Format JSON</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="dbToast"></div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

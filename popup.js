@@ -855,6 +855,24 @@ function bindEvents() {
     renderIDBTableMode(idbData);
   });
 
+
+  // Workspace launcher buttons
+  const wsTab = $("wsTab");
+  const wsWindow = $("wsWindow");
+  const wsFullscreen = $("wsFullscreen");
+  if (wsTab) wsTab.addEventListener("click", () => {
+    msg({ type: "OPEN_DASHBOARD_TAB" });
+    toast("Opening dashboard in new tab…", "info");
+  });
+  if (wsWindow) wsWindow.addEventListener("click", () => {
+    msg({ type: "OPEN_DASHBOARD_WINDOW" });
+    toast("Opening popout window…", "info");
+  });
+  if (wsFullscreen) wsFullscreen.addEventListener("click", () => {
+    msg({ type: "OPEN_DASHBOARD_FULLSCREEN" });
+    toast("Opening fullscreen dashboard…", "info");
+  });
+
   // ESC closes modals
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") { closeReqModal(); closeInterceptModal(); }
