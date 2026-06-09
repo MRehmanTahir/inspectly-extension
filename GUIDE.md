@@ -1,4 +1,4 @@
-# Inspectly v2.0 — Technical Guide
+# Inspectly v3.0 — Technical Guide
 
 Complete technical reference for the architecture, internals, and design decisions of Inspectly.
 

@@ -1,4 +1,4 @@
-# Inspectly v2.0
+# Inspectly v3.0
 
 > **Professional network monitoring, request interception, replay, and browser storage inspection — all in one Chrome Extension.**
 
